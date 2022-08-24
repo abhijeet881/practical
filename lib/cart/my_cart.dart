@@ -16,6 +16,7 @@ class MyCart extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Cart"),
+        centerTitle: true,
       ),
       body: Container(
         margin: const EdgeInsets.only(top: 16),
@@ -26,163 +27,170 @@ class MyCart extends StatelessWidget {
                 () => controller.cartProducts.isNotEmpty?ListView.builder(
                     itemCount: controller.cartProducts.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        child: Row(children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              height: 100,
-                              decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8.0),
-                                bottomLeft: Radius.circular(8.0),
-                              )),
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8.0),
-                                  bottomLeft: Radius.circular(8.0),
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      controller.cartProducts[index].image!,
-                                  placeholder: (context, url) =>
-                                      const CircularProgressIndicator(),
-                                  //fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
+                      return Column(
+                        children: [
+                          Card(
+                            margin: const EdgeInsets.only(left: 16,right: 16),
+                            child: Row(children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  height: 100,
+                                  decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8.0),
+                                    bottomLeft: Radius.circular(8.0),
+                                  )),
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(8.0),
+                                      bottomLeft: Radius.circular(8.0),
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          controller.cartProducts[index].image!,
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                      //fit: BoxFit.cover,
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                              flex: 3,
-                              child: Container(
-                                height: 100,
-                                padding: const EdgeInsets.all(8),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              controller
-                                                  .cartProducts[index].title!,
+                              Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    height: 100,
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  controller
+                                                      .cartProducts[index].title!,
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.centerRight,
+                                                child: IconButton(
+                                                  padding: EdgeInsets.zero,
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  onPressed: () {
+                                                    Get.defaultDialog(
+                                                      title: "Alert",
+                                                      middleText:
+                                                          "Are you sure you want to delete this item?",
+                                                      backgroundColor: Colors.blue,
+                                                      titleStyle: const TextStyle(
+                                                          color: Colors.white),
+                                                      middleTextStyle: const TextStyle(
+                                                          color: Colors.white),
+                                                      radius: 8,
+                                                      actions: <Widget>[
+                                                        ElevatedButton(
+                                                          style: ElevatedButton.styleFrom(
+                                                              primary: Colors.white,
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.bold)),
+                                                          child: const Text("Ok",style: TextStyle(color: Colors.black),),
+
+                                                          onPressed: () async {
+                                                            controller.delete(controller.cartProducts[index].id!);
+                                                            Get.back();
+                                                          },
+                                                        ),
+                                                       ElevatedButton(
+                                                         style: ElevatedButton.styleFrom(
+                                                             primary: Colors.white,
+                                                             textStyle: const TextStyle(
+                                                                 fontSize: 16,
+                                                                 fontWeight: FontWeight.bold)),
+                                                          child: const Text("Cancel",style: TextStyle(color: Colors.black),),
+                                                          onPressed: () {
+                                                            Get.back();
+                                                          },
+                                                        )
+                                                      ],
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              "Price",
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "${controller.cartProducts[index].price}",
                                               maxLines: 1,
                                               style: const TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                          ),
-                                          Container(
-                                            alignment: Alignment.centerRight,
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                color: Colors.grey,
-                                              ),
-                                              onPressed: () {
-                                                Get.defaultDialog(
-                                                  title: "Alert",
-                                                  middleText:
-                                                      "Are you sure you want to delete this item?",
-                                                  backgroundColor: Colors.blue,
-                                                  titleStyle: const TextStyle(
-                                                      color: Colors.white),
-                                                  middleTextStyle: const TextStyle(
-                                                      color: Colors.white),
-                                                  radius: 8,
-                                                  actions: <Widget>[
-                                                    ElevatedButton(
-                                                      style: ElevatedButton.styleFrom(
-                                                          primary: Colors.white,
-                                                          textStyle: const TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.bold)),
-                                                      child: const Text("Ok",style: TextStyle(color: Colors.black),),
-
-                                                      onPressed: () async {
-                                                        controller.delete(controller.cartProducts[index].id!);
-                                                        Get.back();
-                                                      },
-                                                    ),
-                                                   ElevatedButton(
-                                                     style: ElevatedButton.styleFrom(
-                                                         primary: Colors.white,
-                                                         textStyle: const TextStyle(
-                                                             fontSize: 16,
-                                                             fontWeight: FontWeight.bold)),
-                                                      child: const Text("Cancel",style: TextStyle(color: Colors.black),),
-                                                      onPressed: () {
-                                                        Get.back();
-                                                      },
-                                                    )
-                                                  ],
-                                                );
-                                              },
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              "Quantity",
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          "Price",
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "${controller.cartProducts[index].price}",
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                            Text(
+                                              "${controller.cartProducts[index].quantity}",
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        )
                                       ],
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          "Quantity",
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "${controller.cartProducts[index].quantity}",
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ]),
+                                  )),
+                            ]),
+
+                          ),
+                          const SizedBox(height: 16,),
+                        ],
                       );
                     }):const Center(child: Text("No Item Found"),),
               ),

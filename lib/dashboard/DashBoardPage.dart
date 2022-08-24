@@ -14,7 +14,7 @@ class DashBoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text("Shopping Mall"), actions: <Widget>[
+        appBar: AppBar(title: const Text("Shopping Mall"),centerTitle: true, actions: <Widget>[
 
            Padding(padding: const EdgeInsets.all(10.0),
 
