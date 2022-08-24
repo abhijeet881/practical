@@ -30,5 +30,6 @@ ModelCart();
     price = map['price'];
     image = map['image'];
     quantity = 1;
+
   }
 }
