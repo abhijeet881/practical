@@ -124,7 +124,7 @@ class DashBoardPage extends StatelessWidget {
                                        imageUrl: controller
                                            .myProducts[index].featuredImage!,
                                        placeholder: (context, url) =>
-                                           const CircularProgressIndicator(),
+                                            Container(),
                                        errorWidget: (context, url, error) =>
                                            const Icon(Icons.error),
                                      ),
