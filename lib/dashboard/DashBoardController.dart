@@ -7,11 +7,36 @@ import '../model/product_model.dart';
 import '../service/Api.dart';
 
 class DashBoardController extends GetxController{
-  var pageNumber=1.obs;
-  var total=0.0.obs;
-  var isLoading=false.obs;
-   var myProducts = <Datum>[].obs;
-   var cartProducts = <ModelCart>[].obs;
+  var _pageNumber=1;
+  var _cartSize=0;
+  var _isLoading=false;
+  var _myProducts = <Datum>[];
+
+  get myProducts => _myProducts;
+  set myProducts(value) {
+    _myProducts = value;
+    update();
+  }
+
+  get cartSize => _cartSize;
+  set cartSize(value) {
+    _cartSize = value;
+    update();
+  }
+
+  get pageNumber => _pageNumber;
+  set pageNumber(value) {
+    _pageNumber = value;
+    update();
+  }
+
+  get isLoading => _isLoading;
+  set isLoading(value) {
+    _isLoading = value;
+    update();
+  }
+
+
    var api =ApiService();
   // ignore: prefer_typing_uninitialized_variables
   var dbHelper;
@@ -20,12 +45,12 @@ class DashBoardController extends GetxController{
     super.onInit();
     dbHelper = DatabaseHelper.instance;
    getData();
-   queryAll();
+   getCartTotalItems();
   }
 
   void getData() {
-    api.fetchData(pageNumber.value).then((value) {
-      isLoading.value = false;
+    api.fetchData(pageNumber).then((value) {
+      isLoading = false;
       myProducts.addAll(value.data!);
     });
   }
@@ -38,37 +63,15 @@ class DashBoardController extends GetxController{
     modelCart.quantity=1;
     modelCart.image=model.featuredImage!;
 
-    final id = await dbHelper.insert(modelCart);
-    print('inserted row id: $id');
-    queryAll();
-  }
-void delete(int id) async {
-    // row to delete
-    final idw = await dbHelper.delete(id);
-    print('deleted row id: $idw');
-    queryAll();
-
+    await dbHelper.insert(modelCart);
+    getCartTotalItems();
   }
 
-  void queryAll() async {
+  Future<void> getCartTotalItems() async {
     var cartProductsLocal = await dbHelper.queryAllRows();
-    cartProducts.clear();
-    total.value =0;
-      for (int i = 0; i < cartProductsLocal.length; i++) {
-        ModelCart cart = ModelCart.fromMap(cartProductsLocal[i]);
-        cartProducts.add(cart);
-        total.value = total.value + cartProductsLocal[i]['price'];
-      }
-var dd=total.value;
+    cartSize=cartProductsLocal.length;
   }
-Future<String> grandTotal() async {
-    var cartProductsLocal = await dbHelper.queryAllRows();
-    total.value =0;
-      for (int i = 0; i < cartProductsLocal.length; i++) {
 
-        total.value = total.value + cartProductsLocal[i]['price'];
-      }
-      return total.value.toString();
-  }
+
 
 }
