@@ -37,22 +37,8 @@ class CartController extends GetxController {
 
   void delete(int id) async {
     // row to delete
-    final idw = await dbHelper.delete(id);
-    print('deleted row id: $idw');
+    await dbHelper.delete(id);
     queryAll();
-    // DashBoardController dashBoardController = Get.find();
-    // var tempDashProduct=dashBoardController.myProducts;
-    // var cartProductsLocal = await dbHelper.queryAllRows();
-    // for (int k = 0; k < tempDashProduct.length; k++) {
-    //   for (int i = 0; i < cartProductsLocal.length; i++) {
-    //     ModelCart cart = ModelCart.fromMap(cartProductsLocal[i]);
-    //     if (tempDashProduct[k].id == cart.id) {
-    //       tempDashProduct[k].isSelected = false;
-    //     }
-    //   }
-    // }
-    // dashBoardController.myProducts.clear();
-    // dashBoardController.myProducts=tempDashProduct;
 
   }
 
