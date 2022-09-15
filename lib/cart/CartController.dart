@@ -1,15 +1,13 @@
-
-
-
 import 'package:get/get.dart';
 
+import '../dashboard/DashBoardController.dart';
 import '../database/database_helper.dart';
 import '../model/cart_model.dart';
+import '../model/product_model.dart';
 
-class CartController extends GetxController{
-
+class CartController extends GetxController {
   var dbHelper;
-  var _total=0.0;
+  var _total = 0.0;
 
   var cartProducts = <ModelCart>[].obs;
 
@@ -30,7 +28,7 @@ class CartController extends GetxController{
 
   Future<String> grandTotal() async {
     var cartProductsLocal = await dbHelper.queryAllRows();
-    total =0.0;
+    total = 0.0;
     for (int i = 0; i < cartProductsLocal.length; i++) {
       total = total + cartProductsLocal[i]['price'];
     }
@@ -42,13 +40,26 @@ class CartController extends GetxController{
     final idw = await dbHelper.delete(id);
     print('deleted row id: $idw');
     queryAll();
+    // DashBoardController dashBoardController = Get.find();
+    // var tempDashProduct=dashBoardController.myProducts;
+    // var cartProductsLocal = await dbHelper.queryAllRows();
+    // for (int k = 0; k < tempDashProduct.length; k++) {
+    //   for (int i = 0; i < cartProductsLocal.length; i++) {
+    //     ModelCart cart = ModelCart.fromMap(cartProductsLocal[i]);
+    //     if (tempDashProduct[k].id == cart.id) {
+    //       tempDashProduct[k].isSelected = false;
+    //     }
+    //   }
+    // }
+    // dashBoardController.myProducts.clear();
+    // dashBoardController.myProducts=tempDashProduct;
 
   }
 
   void queryAll() async {
     var cartProductsLocal = await dbHelper.queryAllRows();
     cartProducts.clear();
-    total =0.0;
+    total = 0.0;
     for (int i = 0; i < cartProductsLocal.length; i++) {
       ModelCart cart = ModelCart.fromMap(cartProductsLocal[i]);
       cartProducts.add(cart);

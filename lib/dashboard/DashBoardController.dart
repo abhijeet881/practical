@@ -65,6 +65,8 @@ class DashBoardController extends GetxController{
 
     await dbHelper.insert(modelCart);
     getCartTotalItems();
+
+    myProducts=myProducts;
   }
 
   Future<void> getCartTotalItems() async {

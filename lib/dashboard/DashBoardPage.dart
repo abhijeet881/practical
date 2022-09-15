@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:practical/Constants/ConstantStrings.dart';
 import 'package:practical/dashboard/DashBoardController.dart';
 import '../Constants/Routes.dart';
 
@@ -13,7 +14,7 @@ class DashBoardPage extends StatelessWidget {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Shopping Mall"),
+            title:  Text(ConstantStrings.dashTitle),
             centerTitle: true,
             actions: <Widget>[
               Padding(
@@ -87,17 +88,16 @@ class DashBoardPage extends StatelessWidget {
                           gridDelegate:
                               const SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: 200,
-                                  // childAspectRatio: 3 / 2,
                                   crossAxisSpacing: 16,
                                   mainAxisSpacing: 16),
                           itemCount: controller.myProducts.length,
                           itemBuilder: (BuildContext ctx, index) {
                             return GestureDetector(
                               onTap: () {
+                                controller.myProducts[index].isSelected=true;
                                 controller.insert(controller.myProducts[index]);
                               },
                               child: Card(
-                                margin: const EdgeInsets.all(0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: const BorderRadius.only(
                                     topRight: Radius.circular(8.0),
@@ -145,10 +145,11 @@ class DashBoardPage extends StatelessWidget {
                                                         FontWeight.bold),
                                               ),
                                             ),
-                                            const IconButton(
+                                             IconButton(
                                               icon: Icon(
                                                 Icons.shopping_cart,
-                                                color: Colors.grey,
+                                                color: controller
+                                                    .myProducts[index].isSelected?Colors.blue: Colors.grey,
                                               ),
                                               onPressed: null,
                                             ),

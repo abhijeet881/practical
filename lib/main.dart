@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             binding: DashBoardBinding()),
         GetPage(
             name: Routes.routeCart,
-            page: () => const MyCart(),
+            page: () =>  MyCart(),
             binding: CartBinding()),
       ],
     );

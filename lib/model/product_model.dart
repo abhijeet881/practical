@@ -51,6 +51,7 @@ class Datum {
     this.featuredImage,
     this.status,
     this.createdAt,
+    this.isSelected,
   });
 
   int? id;
@@ -61,7 +62,7 @@ class Datum {
   String? featuredImage;
   String? status;
   String? createdAt;
-
+  bool? isSelected=false;
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["id"],
     slug: json["slug"],
@@ -71,6 +72,7 @@ class Datum {
     featuredImage: json["featured_image"],
     status: json["status"],
     createdAt:json["created_at"],
+    isSelected:false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -82,5 +84,6 @@ class Datum {
     "featured_image": featuredImage,
     "status": status,
     "created_at": createdAt,
+    "isSelected": isSelected,
   };
 }

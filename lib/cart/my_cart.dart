@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:practical/cart/CartController.dart';
+import 'package:practical/dashboard/DashBoardController.dart';
 
 // ignore: must_be_immutable
 class MyCart extends GetView<CartController> {
-
-  const MyCart({Key? key}) : super(key: key);
+   const MyCart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
